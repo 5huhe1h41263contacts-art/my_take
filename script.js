@@ -6,7 +6,7 @@ const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 
 // ▼ 取得したいチラシページURL
-const TARGET_URL = "https://example.com/flyers";
+const TARGET_URL = "https://www.spotgroup.co.jp/flyer/flyer-ryoushoku/sto5/";
 
 async function main() {
   const res = await fetch(TARGET_URL);
