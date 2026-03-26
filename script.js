@@ -1,4 +1,3 @@
-```javascript
 const fs = require("fs");
 const fetch = require("node-fetch");
 
@@ -76,4 +75,3 @@ ${images.map(src => `<img src="${src}">`).join("")}
 }
 
 main();
-```
