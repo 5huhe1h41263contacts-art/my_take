@@ -1,12 +1,10 @@
 ```javascript
-// script.js
-
 const fs = require("fs");
 const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 
-// ▼ 取得したいチラシページURL
-const TARGET_URL = "https://www.spotgroup.co.jp/flyer/flyer-ryoushoku/sto5/";
+// ▼ あなたのチラシページ
+const TARGET_URL = "https://www.spotgroup.co.jp/leaflet/bunka/";
 
 async function main() {
   const res = await fetch(TARGET_URL);
@@ -16,13 +14,21 @@ async function main() {
 
   const images = [];
 
-  // ▼ 必要に応じて調整
-  $("img").each((i, el) => {
-    const src = $(el).attr("src");
-    if (src) images.push(src);
+  // ▼ チラシ画像だけ取得
+  $("img.SetImg").each((i, el) => {
+    let src = $(el).attr("src");
+
+    if (src) {
+      // 相対パス対策（念のため）
+      if (src.startsWith("/")) {
+        src = "https://www.spotgroup.co.jp" + src;
+      }
+
+      images.push(src);
+    }
   });
 
-  // ▼ HTML生成（あなたの完成版ベース）
+  // ▼ HTML生成
   const content = `
 <!DOCTYPE html>
 <html lang="ja">
@@ -37,7 +43,11 @@ body { margin:0; background:#000; }
   gap:10px;
   padding:10px;
 }
-img { width:100%; object-fit:contain; }
+img {
+  width:100%;
+  height:100vh;
+  object-fit:contain;
+}
 </style>
 </head>
 
